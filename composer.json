@@ -9,9 +9,11 @@
         "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^9.48",
         "laravel/sanctum": "^3.2",
+        "laravel/telescope": "^4.12",
         "laravel/tinker": "^2.8"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.7",
         "fakerphp/faker": "^1.21",
         "laravel/pint": "^1.4",
         "laravel/sail": "^1.18",
