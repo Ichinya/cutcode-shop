@@ -6,7 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
 class Handler extends ExceptionHandler
-{
+    {
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -41,10 +41,14 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
-    {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
+    public function register(): void
+        {
+        $this->reportable(function (Throwable $e)
+            {
+            if (app()->bound('sentry'))
+                {
+                app('sentry')->captureException($e);
+                }
+            });
+        }
     }
-}

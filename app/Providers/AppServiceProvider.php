@@ -2,22 +2,24 @@
 
 namespace App\Providers;
 
+use App\Http\Kernel;
+use Carbon\CarbonInterval;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
-{
+    {
     /**
      * Register any application services.
      *
      * @return void
      */
     public function register(): void
-    {
+        {
         //
-    }
+        }
 
     /**
      * Bootstrap any application services.
@@ -25,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot(): void
-    {
+        {
         // ошибки если есть проблемы с моделями
         // если плодятся запросы
         Model::preventLazyLoading(!app()->isProduction());
@@ -33,10 +35,19 @@ class AppServiceProvider extends ServiceProvider
         Model::preventSilentlyDiscardingAttributes(!app()->isProduction());
 
         // долгие запросы
-        DB::whenQueryingForLongerThan(500, function (Connection $connection) {
-            // fix logging
-        });
+        DB::whenQueryingForLongerThan(500, function (Connection $connection)
+            {
+            logger()->channel('telegram')->debug('whenQueryingForLongerThan: ' . $connection->query()->toSql());
+            });
 
-        // TODO request cycle
+        /** @var Kernel $kernel */
+        $kernel = app(Kernel::class);
+        $kernel->whenRequestLifecycleIsLongerThan(
+            CarbonInterval::seconds(4),
+            function ()
+                {
+                logger()->channel('telegram')->debug('whenRequestLifecycleIsLongerThan: ' . request()->url());
+                }
+        );
+        }
     }
-}
