@@ -20,7 +20,8 @@ return new class extends Migration {
 
             $table->unsignedInteger('price')->default(0);
 
-            $table->foreignIdFor(\App\Models\Brand::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Brand::class)->nullable()
+                ->constrained()->cascadeOnUpdate()->nullOnDelete();
 
             $table->timestamps();
         });
