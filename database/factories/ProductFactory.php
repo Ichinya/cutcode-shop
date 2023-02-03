@@ -17,11 +17,15 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
             'title' => $this->faker->words(2, true),
             'brand_id' => Brand::query()->inRandomOrder()->value('id'),
-            // TODO 3rd lesson
-            'thumbnail' => '',
+            'thumbnail' => $this->faker->file(
+                base_path('/tests/Fixtures/images/products'),
+                storage_path('app/public/images/products'),
+                false
+            ),
             'price' => $this->faker->numberBetween(1000, 100_000),
         ];
     }
