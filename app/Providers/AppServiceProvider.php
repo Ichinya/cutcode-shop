@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Http\Kernel;
 use Carbon\CarbonInterval;
-use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
@@ -38,9 +37,10 @@ class AppServiceProvider extends ServiceProvider
 
         if (app()->isProduction()) {
             // долгие запросы от начала до конца работы - общее время работы
-            DB::whenQueryingForLongerThan(CarbonInterval::seconds(5), function (Connection $connection) {
-                logger()->channel('telegram')->debug('whenQueryingForLongerThan: ' . join('/n', $connection->getQueryLog()));
-            });
+            // нужно дописывать логику, например через очереди с другим коннектом, чтобы он не мог зациклиться
+//            DB::whenQueryingForLongerThan(CarbonInterval::seconds(5), function (Connection $connection) {
+//                logger()->channel('telegram')->debug('whenQueryingForLongerThan: ' . join('/n', $connection->getQueryLog()));
+//            });
 
             // долгие запросы
             DB::listen(function (QueryExecuted $query) {
