@@ -10,20 +10,21 @@ trait HasSlug
     {
 
         static::creating(function (Model $model) {
-            $model->slug = $model->slug ?? self::checkSlug(str($model->{self::slugFrom()})->append(time())->slug());
+            $model->slug = $model->slug ?? self::checkSlug(str($model->{self::slugFrom()})->slug());
         });
     }
 
     protected static function checkSlug(string $slug, int $i = 0): string
     {
+        $endingSlug = '';
         if ($i > 0) {
-            $slug .= '-' . $i;
+            $endingSlug = '-' . $i;
         }
-        $el = static::where('slug', $slug)->first();
+        $el = static::where('slug', $slug . $endingSlug)->first();
         if ($el) {
             return self::checkSlug($slug, ++$i);
         }
-        return $slug;
+        return $slug . $endingSlug;
     }
 
     public static function slugFrom(): string
