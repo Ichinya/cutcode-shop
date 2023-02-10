@@ -201,6 +201,7 @@ return [
          */
 
         \App\Providers\ViewServiceProvider::class,
+        \App\Support\Testing\TestingServiceProvider::class,
 
     ],
 

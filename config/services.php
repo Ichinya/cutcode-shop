@@ -34,7 +34,7 @@ return [
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
-        'redirect' => 'https://webhook.site/8e480cd6-4da3-4641-882e-c73abddcd298',
+        'redirect' => env('GITHUB_CLIENT_CALLBACK'),
     ],
 
 ];
