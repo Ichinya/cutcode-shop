@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @mixin Builder
+ * @method static User|Builder query()
  */
 class User extends Authenticatable
 {
