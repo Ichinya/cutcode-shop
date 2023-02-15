@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Telegram;
+namespace Services\Telegram;
 
 use Exception;
 

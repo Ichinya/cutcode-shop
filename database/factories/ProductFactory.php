@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Brand;
-use App\Providers\FakerProductProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Support\Testing\FakerImageProvider;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -18,11 +18,11 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $this->faker->addProvider(new FakerProductProvider($this->faker));
+        $this->faker->addProvider(new FakerImageProvider($this->faker));
         return [
             'title' => $this->faker->words(2, true),
             'brand_id' => Brand::query()->inRandomOrder()->value('id'),
-            'thumbnail' => $this->faker->productImage('app/public/images/products'),
+            'thumbnail' => $this->faker->fixturesImage('products', 'images/products'),
             'price' => $this->faker->numberBetween(1000, 100_000),
         ];
     }

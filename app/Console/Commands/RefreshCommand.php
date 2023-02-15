@@ -33,7 +33,8 @@ class RefreshCommand extends Command
         }
 
         Storage::deleteDirectory('images/products');
-        mkdir(storage_path('app/public/images/products'), recursive: true);
+        Storage::deleteDirectory('images/brands');
+
         $this->call('migrate:fresh', ['--seed' => true]);
 
         return self::SUCCESS;

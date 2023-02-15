@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Support\Testing\FakerImageProvider;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Brand>
@@ -16,10 +17,10 @@ class BrandFactory extends Factory
      */
     public function definition(): array
     {
+        $this->faker->addProvider(new FakerImageProvider($this->faker));
         return [
             'title' => $this->faker->company(),
-            // TODO 3rd lesson
-            'thumbnail' => '',
+            'thumbnail' => $this->faker->fixturesImage('brands', 'images/brands'),
         ];
     }
 }
