@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Brand;
-use App\Providers\FakerImageProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Support\Testing\FakerImageProvider;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>

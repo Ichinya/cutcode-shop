@@ -10,7 +10,7 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.5",
-        "laravel/framework": "^9.51",
+        "laravel/framework": "^9.52",
         "laravel/sanctum": "^3.2",
         "laravel/socialite": "^5.6",
         "laravel/telescope": "^4.13",
@@ -21,7 +21,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
         "fakerphp/faker": "^1.21",
-        "laravel/pint": "^1.4",
+        "laravel/pint": "^1.5",
         "laravel/sail": "^1.20",
         "mockery/mockery": "^1.5",
         "nunomaduro/collision": "^6.4",
@@ -32,10 +32,13 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Domain\\": "src/Domain/",
+            "Services\\": "src/Services/",
+            "Support\\": "src/Support/"
         },
         "files": [
-            "app/Support/helpers.php"
+            "src/Support/helpers.php"
         ]
     },
     "autoload-dev": {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Support\Testing;
+namespace App\Providers;
 
-use App\Providers\FakerImageProvider;
 use Faker\Factory;
 use Faker\Generator;
 use Illuminate\Support\ServiceProvider;
+use Support\Testing\FakerImageProvider;
 
 class TestingServiceProvider extends ServiceProvider
 {

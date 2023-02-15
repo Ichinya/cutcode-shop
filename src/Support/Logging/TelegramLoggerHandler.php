@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Logging;
+namespace Support\Logging;
 
-use App\Services\Telegram\TelegramBotApi;
-use App\Services\Telegram\TelegramBotApiException;
 use JetBrains\PhpStorm\NoReturn;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
+use Services\Telegram\TelegramBotApi;
+use Services\Telegram\TelegramBotApiException;
 
 class TelegramLoggerHandler extends AbstractProcessingHandler
 {

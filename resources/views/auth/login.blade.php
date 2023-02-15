@@ -2,7 +2,7 @@
 
 @section('title', 'Вход в аккаунт')
 @section('content')
-    <x-forms.auth-form title="Вход в аккаунт" action="{{ route('signIn') }}" method="POST">
+    <x-forms.auth-form title="Вход в аккаунт" action="{{ route('login.handle') }}" method="POST">
         @csrf
         <x-forms.text-input
             name="email"
@@ -30,7 +30,7 @@
         <x-slot:socialAuth>
             <ul class="space-y-3 my-2">
                 <li>
-                    <a href="{{ route('socialite.github') }}"
+                    <a href="{{ route('socialite.redirect', ['driver' => 'github']) }}"
                        class="relative flex items-center h-14 px-12 rounded-lg border border-[#A07BF0] bg-white/20 hover:bg-white/20 active:bg-white/10 active:translate-y-0.5">
                         <svg class="shrink-0 absolute left-4 w-5 sm:w-6 h-5 sm:h-6" xmlns="http://www.w3.org/2000/svg"
                              fill="currentColor" viewBox="0 0 20 20">
@@ -46,10 +46,10 @@
         <x-slot:buttons>
             <div class="space-y-3 mt-5">
                 <div class="text-xxs md:text-xs">
-                    <a href="{{ route('password.request') }}" class="text-white hover:text-white/70 font-bold">Забыли пароль?</a>
+                    <a href="{{ route('password.reset') }}" class="text-white hover:text-white/70 font-bold">Забыли пароль?</a>
                 </div>
                 <div class="text-xxs md:text-xs">
-                    <a href="{{ route('signUp') }}" class="text-white hover:text-white/70 font-bold">Регистрация</a>
+                    <a href="{{ route('register') }}" class="text-white hover:text-white/70 font-bold">Регистрация</a>
                 </div>
             </div>
         </x-slot:buttons>
