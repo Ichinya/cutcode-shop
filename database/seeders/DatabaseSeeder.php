@@ -6,7 +6,10 @@ namespace Database\Seeders;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use Database\Factories\UserFactory;
+use Domain\Auth\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,11 +26,12 @@ class DatabaseSeeder extends Seeder
             ->has(Product::factory(rand(5, 15)))
             ->create();
 
-        // \App\Models\User::factory(10)->create();
+        UserFactory::new()->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        UserFactory::new()->create([
+            'name' => 'Test User',
+            'email' => 'test@test.com',
+            'password' => Hash::make('password')
+        ]);
     }
 }
