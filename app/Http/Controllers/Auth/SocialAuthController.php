@@ -29,22 +29,20 @@ class SocialAuthController extends Controller
         if ($driver !== 'github') {
             throw new \DomainException('Social auth error');
         }
-        $githubUser = Socialite::driver($driver)->user();
 
-        $user = User::updateOrCreate([
-            $driver . '_id' => $githubUser->id,
+        $driverUser = Socialite::driver($driver)->user();
+
+        $user = User::query()->firstOrCreate([
+            $driver . '_id' => $driverUser->getId(),
         ], [
-            'name' => $githubUser->name ?? $githubUser->getNickname(),
-            'email' => $githubUser->email,
-//            'github_token' => $githubUser->token,
-//            'github_refresh_token' => $githubUser->refreshToken,
-            'password' => Hash::make($githubUser->refreshToken),
+            'name' => $driverUser->getName() ?? $driverUser->getNickname() ?? 'NoName',
+            'email' => $driverUser->getEmail(),
+            'password' => Hash::make(str()->random(20))
         ]);
 
         Auth::login($user);
 
         return redirect()->intended(route('home'));
     }
-
 
 }

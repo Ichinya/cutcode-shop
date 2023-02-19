@@ -5,7 +5,7 @@ namespace Support\Logging;
 use JetBrains\PhpStorm\NoReturn;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
-use Services\Telegram\TelegramBotApi;
+use Services\Telegram\TelegramBotApiContract;
 use Services\Telegram\TelegramBotApiException;
 
 class TelegramLoggerHandler extends AbstractProcessingHandler
@@ -33,6 +33,8 @@ class TelegramLoggerHandler extends AbstractProcessingHandler
      */
     #[NoReturn] protected function write(array $record): void
     {
-        TelegramBotApi::sendMessage($this->token, $this->chatId, $record['formatted']);
+        /** @var TelegramBotApiContract $telegramApi */
+        $telegramApi = app(TelegramBotApiContract::class);
+        $telegramApi::sendMessage($this->token, $this->chatId, $record['formatted']);
     }
 }

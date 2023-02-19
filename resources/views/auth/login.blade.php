@@ -46,7 +46,7 @@
         <x-slot:buttons>
             <div class="space-y-3 mt-5">
                 <div class="text-xxs md:text-xs">
-                    <a href="{{ route('password.reset') }}" class="text-white hover:text-white/70 font-bold">Забыли пароль?</a>
+                    <a href="{{ route('forgot') }}" class="text-white hover:text-white/70 font-bold">Забыли пароль?</a>
                 </div>
                 <div class="text-xxs md:text-xs">
                     <a href="{{ route('register') }}" class="text-white hover:text-white/70 font-bold">Регистрация</a>
