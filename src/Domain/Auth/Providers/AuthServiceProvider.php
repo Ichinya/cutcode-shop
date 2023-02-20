@@ -32,6 +32,6 @@ class AuthServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->register(ActionServiceProvider::class);
+        $this->app->register(ActionsServiceProvider::class);
     }
 }

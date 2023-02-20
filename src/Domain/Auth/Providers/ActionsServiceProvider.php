@@ -7,7 +7,7 @@ use Domain\Auth\Actions\RegisterNewUserAction;
 use Domain\Auth\Contracts\RegisterNewUserContract;
 use Illuminate\Support\ServiceProvider;
 
-class ActionServiceProvider extends ServiceProvider
+class ActionsServiceProvider extends ServiceProvider
 {
 
     public array $bindings = [

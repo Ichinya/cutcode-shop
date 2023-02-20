@@ -2,7 +2,7 @@
 
 @section('title', 'Восстановление пароля')
 @section('content')
-    <x-forms.auth-form title="Восстановление пароля" action="{{ route('reset.handle') }}" method="POST">
+    <x-forms.auth-form title="Восстановление пароля" action="{{ route('password.reset.handle') }}" method="POST">
         @csrf
 
         <input type="hidden" name="token" value="{{ $token }}">
@@ -47,7 +47,7 @@
 
         <x-forms.primary-button>Обновить пароль</x-forms.primary-button>
 
-        <x-slot:socialAuth/>
-        <x-slot:buttons/>
+        <x-slot:socialAuth></x-slot:socialAuth>
+        <x-slot:buttons></x-slot:buttons>
     </x-forms.auth-form>
 @endsection

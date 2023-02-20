@@ -21,7 +21,7 @@ class AuthRegistrar implements RouteRegistrar
 
             Route::controller(SignInController::class)->group(function () {
                 Route::get('/login', 'page')->name('login');
-                Route::post('/login', 'handle')->name('login.handle');
+                Route::post('/login', 'handle')->middleware('throttle:auth')->name('login.handle');
                 Route::delete('/logout', 'logout')->name('logout');
             });
 
@@ -36,7 +36,7 @@ class AuthRegistrar implements RouteRegistrar
             });
 
             Route::controller(ResetPasswordController::class)->group(function () {
-                Route::get('/reset-password', 'page')->middleware('guest')->name('password.reset');
+                Route::get('/reset-password/{token}', 'page')->middleware('guest')->name('password.reset');
                 Route::post('/reset-password', 'handle')->middleware('guest')->name('password.reset.handle');
             });
 

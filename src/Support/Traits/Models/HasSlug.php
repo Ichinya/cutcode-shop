@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\Models;
+namespace Support\Traits\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -28,7 +28,7 @@ trait HasSlug
         if ($i > 0) {
             $endingSlug = '-' . $i;
         }
-        $el = static::where('slug', $slug . $endingSlug)->first();
+        $el = static::query()->where('slug', $slug . $endingSlug)->first();
         if ($el) {
             return self::checkSlug($slug, ++$i);
         }

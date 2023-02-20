@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
+use Services\Telegram\TelegramBotApi;
+use Services\Telegram\TelegramBotApiContract;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
         // если в выборке модели нет нужного proporty. Например $user = User::select(['id'])->first(), то при вызове $user->name выдаст exception вместо null
         // теперь в одном методе
         Model::shouldBeStrict(!app()->isProduction());
+
+        $this->app->bind(TelegramBotApiContract::class, TelegramBotApi::class);
 
         if (app()->isProduction()) {
             // долгие запросы от начала до конца работы - общее время работы
