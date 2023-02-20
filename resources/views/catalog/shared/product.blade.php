@@ -1,14 +1,14 @@
 <!-- Product card -->
 <div class="product-card flex flex-col rounded-3xl bg-card">
-    <a href="product.html" class="product-card-photo overflow-hidden h-[320px] rounded-3xl">
+    <a href="#" class="product-card-photo overflow-hidden h-[320px] rounded-3xl">
         <img src="{{ $item->makeThumbnail('345x320') }}" class="object-cover w-full h-full" alt="{{ $item->title }}">
     </a>
     <div class="grow flex flex-col py-8 px-6">
         <h3 class="text-sm lg:text-md font-black">
-            <a href="product.html" class="inline-block text-white hover:text-pink">{{ $item->title }}</a>
+            <a href="#" class="inline-block text-white hover:text-pink">{{ $item->title }}</a>
         </h3>
         <div class="mt-auto pt-6">
-            <div class="mb-3 text-sm font-semibold">{{ $item->price }} ₽</div>
+            <div class="mb-3 text-sm font-semibold">{{ $item->price }}</div>
             <div class="flex flex-wrap items-center gap-4">
                 <a href="#" class="w-[56px] !h-[56px] !px-0 btn btn-pink">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 52 52">
