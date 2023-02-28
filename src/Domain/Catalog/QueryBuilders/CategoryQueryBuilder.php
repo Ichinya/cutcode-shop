@@ -8,7 +8,7 @@ class CategoryQueryBuilder extends Builder
 {
     public function homePage(): CategoryQueryBuilder
     {
-        return $this
+        return $this->select(['id', 'title', 'slug'])
             ->where('on_home_page', true)
             ->orderBy('sorting')
             ->limit(6);
