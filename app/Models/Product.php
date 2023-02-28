@@ -7,6 +7,7 @@ use Domain\Catalog\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Pipeline\Pipeline;
 use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Searchable;
@@ -91,4 +92,15 @@ class Product extends Model
     {
         return $this->belongsToMany(Category::class);
     }
+
+    public function properties(): BelongsToMany
+    {
+        return $this->belongsToMany(Property::class)->withPivot('value');
+    }
+
+    public function optionValues(): BelongsToMany
+    {
+        return $this->belongsToMany(OptionValue::class);
+    }
+
 }
