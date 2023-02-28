@@ -8,3 +8,10 @@ if (!function_exists('flash')) {
     }
 
 }
+if (!function_exists('filters')) {
+    function filters(): array
+    {
+        return app(\Domain\Catalog\Filters\FilterManager::class)->items();
+    }
+
+}

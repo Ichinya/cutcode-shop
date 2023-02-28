@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Domain\Catalog\Models\Brand;
 use Domain\Catalog\Models\Category;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -22,20 +21,19 @@ class CatalogController extends Controller
 
         $products = Product::query()
             ->select(['id', 'title', 'slug', 'price', 'thumbnail'])
-            ->when($category->exists(), function (Builder $q) use ($category) {
+            ->when(request('s'), function (Builder $q) {
+                $q->whereFullText(['title', 'text'], request('s'));
+            })
+            ->when($category->exists, function (Builder $q) use ($category) {
                 $q->whereRelation('categories', 'categories.id', '=', $category->id);
             })
             ->filtered()
             ->sorted()
             ->paginate(6);
 
-        $brands = Brand::query()
-            ->select(['id', 'title'])
-            ->has('products')
-            ->get();
 
-        $products->setRelation('brands', $brands);
+//        $products->setRelation('brands', $brands);
 
-        return view('catalog.index', compact('categories', 'products', 'brands', 'category'));
+        return view('catalog.index', compact('categories', 'products', 'category'));
     }
 }
