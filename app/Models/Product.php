@@ -95,7 +95,9 @@ class Product extends Model
 
     public function properties(): BelongsToMany
     {
-        return $this->belongsToMany(Property::class)->withPivot('value');
+        return $this->belongsToMany(Property::class)
+            ->withPivot('value')
+            ->withTimestamps();
     }
 
     public function optionValues(): BelongsToMany
