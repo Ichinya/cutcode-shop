@@ -2,8 +2,7 @@
 
 namespace Domain\Catalog\Providers;
 
-// use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class CatalogServiceProvider extends ServiceProvider
 {
@@ -21,6 +20,12 @@ class CatalogServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->register(ActionsServiceProvider::class);
+        $this->app->register(
+            ActionsServiceProvider::class
+        );
+
+        $this->app->register(
+            EventsServiceProvider::class
+        );
     }
 }

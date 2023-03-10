@@ -12,21 +12,12 @@ class HomeControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * @test
+     * @return void
+     */
     public function it_success_response(): void
     {
-        CategoryFactory::new()->count(5)
-            ->create([
-                'on_home_page' => true,
-                'sorting' => 999
-            ]);
-
-        $category = CategoryFactory::new()
-            ->createOne([
-                'on_home_page' => true,
-                'sorting' => 1
-            ]);
-
         ProductFactory::new()->count(5)
             ->create([
                 'on_home_page' => true,
@@ -34,6 +25,18 @@ class HomeControllerTest extends TestCase
             ]);
 
         $product = ProductFactory::new()
+            ->createOne([
+                'on_home_page' => true,
+                'sorting' => 1
+            ]);
+
+        CategoryFactory::new()->count(5)
+            ->create([
+                'on_home_page' => true,
+                'sorting' => 999
+            ]);
+
+        $category = CategoryFactory::new()
             ->createOne([
                 'on_home_page' => true,
                 'sorting' => 1
@@ -51,11 +54,10 @@ class HomeControllerTest extends TestCase
                 'sorting' => 1
             ]);
 
-        $this->get(action(HomeController::class))
+        $this->get(action([HomeController::class]))
             ->assertOk()
             ->assertViewHas('categories.0', $category)
             ->assertViewHas('products.0', $product)
             ->assertViewHas('brands.0', $brand);
     }
-
 }

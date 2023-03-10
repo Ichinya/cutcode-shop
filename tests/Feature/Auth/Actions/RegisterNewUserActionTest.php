@@ -11,21 +11,22 @@ class RegisterNewUserActionTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    /**
+     * @test
+     * @return void
+     */
     public function it_success_user_created(): void
     {
-        $this->assertDatabaseMissing('users', [
-            'email' => 'test@email.ru'
-        ]);
-
         $action = app(RegisterNewUserContract::class);
 
-        $action(NewUserDTO::make('Test', 'test@email.ru', '1234567890'));
+        $this->assertDatabaseMissing('users', [
+            'email' => 'testing@cutcode.ru'
+        ]);
+
+        $action(NewUserDTO::make('Test', 'testing@cutcode.ru', '1234567890'));
 
         $this->assertDatabaseHas('users', [
-            'email' => 'test@email.ru'
+            'email' => 'testing@cutcode.ru'
         ]);
     }
-
-
 }

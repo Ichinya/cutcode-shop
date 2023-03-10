@@ -10,7 +10,7 @@ use IteratorAggregate;
 use Support\Traits\Makeable;
 use Traversable;
 
-final class Menu implements IteratorAggregate, Countable
+class Menu implements IteratorAggregate, Countable
 {
     use Makeable;
 
@@ -21,19 +21,14 @@ final class Menu implements IteratorAggregate, Countable
         $this->items = $items;
     }
 
-    public function all(): Collection
-    {
-        return Collection::make($this->items);
-    }
-
-    public function add(MenuItem $item): self
+    public function add(MenuItem $item): static
     {
         $this->items[] = $item;
 
         return $this;
     }
 
-    public function addIf(bool|callable $condition, MenuItem $item): self
+    public function addIf(bool|callable $condition, MenuItem $item): static
     {
         if (is_callable($condition) ? $condition() : $condition) {
             $this->items[] = $item;
@@ -42,7 +37,7 @@ final class Menu implements IteratorAggregate, Countable
         return $this;
     }
 
-    public function remove(MenuItem $item): self
+    public function remove(MenuItem $item): static
     {
         $this->items = $this->all()
             ->filter(fn(MenuItem $current) => $item !== $current)
@@ -51,7 +46,12 @@ final class Menu implements IteratorAggregate, Countable
         return $this;
     }
 
-    public function removeByLink(string $link): self
+    public function all(): Collection
+    {
+        return Collection::make($this->items);
+    }
+
+    public function removeByLink(string $link): static
     {
         $this->items = $this->all()
             ->filter(fn(MenuItem $current) => $link !== $current->link())

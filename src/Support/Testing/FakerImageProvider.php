@@ -5,18 +5,18 @@ namespace Support\Testing;
 use Faker\Provider\Base;
 use Illuminate\Support\Facades\Storage;
 
-class FakerImageProvider extends Base
+final class FakerImageProvider extends Base
 {
     public function fixturesImage(string $fixturesDir, string $storageDir): string
     {
         $storage = Storage::disk('images');
 
-        if (!$storage->exists($storageDir)) {
+        if (!$storage->exists($fixturesDir)) {
             $storage->makeDirectory($storageDir);
         }
 
         $file = $this->generator->file(
-            base_path('tests/Fixtures/images/' . $fixturesDir),
+            base_path("/tests/Fixtures/images/$fixturesDir"),
             $storage->path($storageDir),
             false
         );

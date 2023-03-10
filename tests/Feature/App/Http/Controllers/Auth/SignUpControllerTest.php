@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Feature\App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Auth\SignUpController;
+use App\Http\Requests\SignUpFormRequest;
 use App\Listeners\SendEmailNewUserListener;
 use App\Notifications\NewUserNotification;
 use Database\Factories\UserFactory;
@@ -24,12 +24,11 @@ class SignUpControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->request = [
-            'name' => 'John Doe',
+        $this->request = SignUpFormRequest::factory()->create([
             'email' => 'testing@cutcode.ru',
             'password' => '1234567890',
-            'password_confirmation' => '1234567890',
-        ];
+            'password_confirmation' => '1234567890'
+        ]);
     }
 
     private function request(): TestResponse
@@ -65,8 +64,7 @@ class SignUpControllerTest extends TestCase
      */
     public function it_validation_success(): void
     {
-        $this->request()
-            ->assertValid();
+        $this->request()->assertValid();
     }
 
     /**
@@ -78,8 +76,7 @@ class SignUpControllerTest extends TestCase
         $this->request['password'] = '123';
         $this->request['password_confirmation'] = '1234';
 
-        $this->request()
-            ->assertInvalid(['password']);
+        $this->request()->assertInvalid(['password']);
     }
 
     /**
@@ -113,8 +110,7 @@ class SignUpControllerTest extends TestCase
             'email' => $this->request['email']
         ]);
 
-        $this->request()
-            ->assertInvalid(['email']);
+        $this->request()->assertInvalid(['email']);
     }
 
     /**
@@ -128,10 +124,7 @@ class SignUpControllerTest extends TestCase
         $this->request();
 
         Event::assertDispatched(Registered::class);
-        Event::assertListening(
-            Registered::class,
-            SendEmailNewUserListener::class
-        );
+        Event::assertListening(Registered::class, SendEmailNewUserListener::class);
     }
 
     /**
@@ -142,12 +135,8 @@ class SignUpControllerTest extends TestCase
     {
         $this->request();
 
-        Notification::assertSentTo(
-            $this->findUser(),
-            NewUserNotification::class
-        );
+        Notification::assertSentTo($this->findUser(), NewUserNotification::class);
     }
-
 
     /**
      * @test
@@ -155,8 +144,7 @@ class SignUpControllerTest extends TestCase
      */
     public function it_user_authenticated_after_and_redirected(): void
     {
-        $this->request()
-            ->assertRedirect(route('home'));
+        $this->request()->assertRedirect(route('home'));
 
         $this->assertAuthenticatedAs($this->findUser());
     }

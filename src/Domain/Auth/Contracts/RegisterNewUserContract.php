@@ -6,5 +6,5 @@ use Domain\Auth\DTOs\NewUserDTO;
 
 interface RegisterNewUserContract
 {
-    public function __invoke(NewUserDTO $userDTO): void;
+    public function __invoke(NewUserDTO $data);
 }

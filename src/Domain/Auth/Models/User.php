@@ -2,16 +2,17 @@
 
 namespace Domain\Auth\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Builder;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * @mixin Builder
+ * @property-read string $avatar
+ * @property string $name
  * @method static User|Builder query()
  */
 class User extends Authenticatable
@@ -27,7 +28,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'github_id',
+        'github_id'
     ];
 
     /**
@@ -49,10 +50,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function factory(): UserFactory
+    {
+        return UserFactory::new();
+    }
+
     public function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn() => 'https://ui-avatars.com/api/?name=' . $this->name,
+            get: fn() => 'https://ui-avatars.com/api/?name=' . $this->name
         );
     }
 }

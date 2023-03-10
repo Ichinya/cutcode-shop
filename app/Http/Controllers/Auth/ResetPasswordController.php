@@ -9,18 +9,11 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
-
-    /**
-     * @param $token
-     * @return Factory|View|Application
-     */
-    public function page($token): Factory|View|Application
+    public function page(string $token): Factory|View|Application
     {
         return view('auth.reset-password', ['token' => $token]);
     }
@@ -31,8 +24,8 @@ class ResetPasswordController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
+                    'password' => bcrypt($password)
+                ])->setRememberToken(str()->random(60));
 
                 $user->save();
 
@@ -42,11 +35,10 @@ class ResetPasswordController extends Controller
 
         if ($status === Password::PASSWORD_RESET) {
             flash()->info(__($status));
-            return redirect()->route('login');
+            return redirect()->intended(route('login'));
         }
 
-        return back()->withErrors(['email' => [__($status)]]);
+        return redirect()->intended(route('login'))
+            ->withErrors(['email' => [__($status)]]);
     }
-
-
 }

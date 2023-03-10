@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests\Feature\App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use Database\Factories\UserFactory;
-use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -42,7 +41,7 @@ class ForgotPasswordControllerTest extends TestCase
         $this->post(action([ForgotPasswordController::class, 'handle']), $this->testingCredentials())
             ->assertRedirect();
 
-        Notification::assertSentTo($user, ResetPasswordNotification::class);
+        Notification::assertSentTo($user, ResetPassword::class);
     }
 
     /**

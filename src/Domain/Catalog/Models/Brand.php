@@ -2,20 +2,21 @@
 
 namespace Domain\Catalog\Models;
 
-use App\Models\Product;
+use Domain\Catalog\Collections\BrandCollection;
 use Domain\Catalog\QueryBuilders\BrandQueryBuilder;
-use Illuminate\Database\Eloquent\Builder;
+use Domain\Product\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Support\Traits\Models\HasSlug;
 use Support\Traits\Models\HasThumbnail;
 
 /**
- * @mixin Builder
- * @property string slug
- * @property string title
- * @property string thumbnail
- * @method static BrandQueryBuilder|Brand query()
+ * @property $slug - Код
+ * @property $title - Заголовок
+ * @property $thumbnail - Изображение
+ *
+ * @method static Brand|BrandQueryBuilder query()
  */
 class Brand extends Model
 {
@@ -23,19 +24,30 @@ class Brand extends Model
     use HasSlug;
     use HasThumbnail;
 
-    protected $fillable = ['slug', 'title', 'thumbnail', 'on_home_page', 'sorting'];
+    protected $fillable = [
+        'slug',
+        'title',
+        'thumbnail',
+        'on_home_page',
+        'sorting'
+    ];
+
+    public function newCollection(array $models = []): BrandCollection
+    {
+        return new BrandCollection($models);
+    }
+
+    public function newEloquentBuilder($query): BrandQueryBuilder
+    {
+        return new BrandQueryBuilder($query);
+    }
 
     protected function thumbnailDir(): string
     {
         return 'brands';
     }
 
-    public function newEloquentBuilder($query): Builder|Brand
-    {
-        return new BrandQueryBuilder($query);
-    }
-
-    public function products(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }

@@ -3,22 +3,18 @@
 namespace Database\Factories;
 
 use Domain\Catalog\Models\Brand;
+use Domain\Product\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Support\Testing\FakerImageProvider;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
+ * @extends Factory<Product>
  */
 class ProductFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Product::class;
+
     public function definition(): array
     {
-        $this->faker->addProvider(new FakerImageProvider($this->faker));
         return [
             'title' => $this->faker->words(3, true),
             'brand_id' => Brand::query()->inRandomOrder()->value('id'),
