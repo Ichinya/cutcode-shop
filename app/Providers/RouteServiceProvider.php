@@ -4,9 +4,9 @@ namespace App\Providers;
 
 use App\Contracts\RouteRegistrar;
 use App\Routing\AppRegistrar;
+use App\Routing\AuthRegistrar;
+use App\Routing\CatalogRegistrar;
 use App\Routing\ProductRegistrar;
-use Domain\Auth\Routing\AuthRegistrar;
-use Domain\Catalog\Routing\CatalogRegistrar;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -30,7 +30,7 @@ class RouteServiceProvider extends ServiceProvider
         AppRegistrar::class,
         AuthRegistrar::class,
         CatalogRegistrar::class,
-        ProductRegistrar::class,
+        ProductRegistrar::class
     ];
 
     /**
@@ -38,12 +38,12 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->configureRateLimiting();
 
-        $this->routes(function (Registrar $registrar) {
-            $this->mapRoutes($registrar, $this->registrars);
+        $this->routes(function (Registrar $router) {
+            $this->mapRoutes($router, $this->registrars);
         });
     }
 
@@ -52,7 +52,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configureRateLimiting()
+    protected function configureRateLimiting(): void
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
@@ -65,8 +65,16 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('global', function (Request $request) {
             return Limit::perMinute(600)
                 ->by($request->user()?->id ?: $request->ip())
-                ->response(fn(Request $request, array $headers) => response('Too many request', Response::HTTP_TOO_MANY_REQUESTS, $headers));
+                ->response(
+                    fn(Request $request, array $headers) => response(
+                        'Take it easy',
+                        Response::HTTP_TOO_MANY_REQUESTS,
+                        $headers
+                    )
+                );
         });
+
+
     }
 
     protected function mapRoutes(Registrar $router, array $registrars): void

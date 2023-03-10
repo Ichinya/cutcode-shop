@@ -4,10 +4,9 @@ namespace Database\Factories;
 
 use Domain\Catalog\Models\Brand;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Support\Testing\FakerImageProvider;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Domain\Catalog\Models\Brand>
+ * @extends Factory<Brand>
  */
 class BrandFactory extends Factory
 {
@@ -20,11 +19,10 @@ class BrandFactory extends Factory
      */
     public function definition(): array
     {
-        $this->faker->addProvider(new FakerImageProvider($this->faker));
         return [
-            'title' => $this->faker->company(),
+            'title' => $this->faker->company,
             'thumbnail' => $this->faker->fixturesImage('brands', 'brands'),
-            'on_home_page' => $this->faker->boolean(),
+            'on_home_page' => $this->faker->boolean,
             'sorting' => $this->faker->numberBetween(1, 999),
         ];
     }

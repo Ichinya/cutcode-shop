@@ -17,7 +17,7 @@
 
                 <div class="basis-full lg:basis-2/5 xl:basis-2/4">
                     <div class="overflow-hidden h-auto max-h-[620px] lg:h-[480px] xl:h-[620px] rounded-3xl">
-                        <img src="{{ $product->makeThumbnail('345x320') }}" class="object-cover w-full h-full"
+                        <img src="{{ $product->thumbnail }}" class="object-cover w-full h-full"
                              alt="{{ $product->title }}">
                     </div>
                 </div>
@@ -70,37 +70,38 @@
                             <div class="text-pink text-lg md:text-xl font-black">{{ $product->price }}</div>
                         </div>
 
-                        <ul class="sm:max-w-[360px] space-y-2 mt-8">
-                            @foreach($product->properies as $property)
-                                <li class="flex justify-between text-body">
-                                    <strong>{{ $property->title }}</strong>
-                                    {{ $property->pivot->value }}
-                                </li>
-                            @endforeach
-                        </ul>
-
+                        @if($product->json_properties)
+                            <ul class="sm:max-w-[360px] space-y-2 mt-8">
+                                @foreach($product->json_properties as $property => $value)
+                                    <li class="flex justify-between text-body"><strong>{{ $property }}
+                                            :</strong> {{ $value }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
                         <!-- Add to cart -->
                         <form class="space-y-8 mt-8">
-                            <div class="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4">
-                                @foreach($options as $option => $values)
+                            @if($options)
+                                <div class="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4">
+                                    @foreach($options as $option => $values)
 
-                                    <div class="flex flex-col gap-2">
-                                        <label for="filter-item-1"
-                                               class="cursor-pointer text-body text-xxs font-medium">
-                                            {{ $option }}
-                                        </label>
+                                        <div class="flex flex-col gap-2">
+                                            <label for="filter-item-1"
+                                                   class="cursor-pointer text-body text-xxs font-medium">
+                                                {{ $option }}
+                                            </label>
 
-                                        <select id="filter-item-1"
-                                                class="form-select w-full h-12 px-4 rounded-lg border border-body/10 focus:border-pink focus:shadow-[0_0_0_3px_#EC4176] bg-white/5 text-white text-xs shadow-transparent outline-0 transition">
-                                            @foreach($values as $value)
-                                                <option value="{{ $value->id }}" class="text-dark">
-                                                    {{ $value->title }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                @endforeach
-                            </div>
+                                            <select id="filter-item-1"
+                                                    class="form-select w-full h-12 px-4 rounded-lg border border-body/10 focus:border-pink focus:shadow-[0_0_0_3px_#EC4176] bg-white/5 text-white text-xs shadow-transparent outline-0 transition">
+                                                @foreach($values as $value)
+                                                    <option value="{{ $value->id }}" class="text-dark">
+                                                        {{ $value->title }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
 
                             <div class="flex flex-wrap items-center gap-3 xs:gap-4">
                                 <div class="flex items-stretch h-[54px] lg:h-[72px] gap-2">
@@ -142,14 +143,16 @@
             </section>
 
             <!-- Watched products  -->
-            <section class="mt-16 xl:mt-24">
-                <h2 class="mb-12 text-lg lg:text-[42px] font-black">Просмотренные товары</h2>
-                <!-- Products list -->
-                <div
-                    class="products grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-8 gap-y-8 lg:gap-y-10 2xl:gap-y-12">
-                    @each('product.shared.product', $also, 'item')
-                </div>
-            </section>
+            @if($also)
+                <section class="mt-16 xl:mt-24">
+                    <h2 class="mb-12 text-lg lg:text-[42px] font-black">Просмотренные товары</h2>
+                    <!-- Products list -->
+                    <div
+                        class="products grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-8 gap-y-8 lg:gap-y-10 2xl:gap-y-12">
+                        @each('product.shared.product', $also, 'item')
+                    </div>
+                </section>
+            @endif
         </div>
     </main>
 @endsection

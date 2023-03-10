@@ -6,20 +6,22 @@ use Domain\Auth\Contracts\RegisterNewUserContract;
 use Domain\Auth\DTOs\NewUserDTO;
 use Domain\Auth\Models\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 
 class RegisterNewUserAction implements RegisterNewUserContract
 {
-    public function __invoke(NewUserDTO $userDTO): void
+    public function __invoke(NewUserDTO $data): RedirectResponse
     {
         $user = User::query()->create([
-            'name' => $userDTO->name,
-            'email' => $userDTO->email,
-            'password' => Hash::make($userDTO->password),
+            'name' => $data->name,
+            'email' => $data->email,
+            'password' => bcrypt($data->password),
         ]);
 
         event(new Registered($user));
-        Auth::login($user);
+
+        auth()->login($user);
+
+        return redirect()->intended(route('home'));
     }
 }

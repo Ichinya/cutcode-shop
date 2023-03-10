@@ -2,9 +2,10 @@
 
 namespace App\Filters;
 
+use Domain\Catalog\Filters\AbstractFilter;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
-class PriceFilter extends \Domain\Catalog\Filters\AbstractFilter
+class PriceFilter extends AbstractFilter
 {
 
     public function title(): string
@@ -28,7 +29,7 @@ class PriceFilter extends \Domain\Catalog\Filters\AbstractFilter
             });
     }
 
-    public function value(): array
+    public function values(): array
     {
         return [
             'from' => 0,

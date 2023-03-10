@@ -2,15 +2,16 @@
 
 namespace App\Filters;
 
+use Domain\Catalog\Filters\AbstractFilter;
 use Domain\Catalog\Models\Brand;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
-class BrandFilter extends \Domain\Catalog\Filters\AbstractFilter
+class BrandFilter extends AbstractFilter
 {
 
     public function title(): string
     {
-        return 'Бренд';
+        return 'Бренды';
     }
 
     public function key(): string
@@ -20,13 +21,12 @@ class BrandFilter extends \Domain\Catalog\Filters\AbstractFilter
 
     public function apply(Builder $query): Builder
     {
-        return $query
-            ->when($this->requestValue(), function (Builder $q) {
-                $q->whereIn('brand_id', $this->requestValue());
-            });
+        return $query->when($this->requestValue(), function (Builder $q) {
+            $q->whereIn('brand_id', $this->requestValue());
+        });
     }
 
-    public function value(): array
+    public function values(): array
     {
         return Brand::query()
             ->select(['id', 'title'])

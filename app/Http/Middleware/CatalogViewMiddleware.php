@@ -9,7 +9,7 @@ class CatalogViewMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if($request->has('view')) {
+        if ($request->has('view')) {
             $request->session()->put('view', $request->get('view'));
         }
 

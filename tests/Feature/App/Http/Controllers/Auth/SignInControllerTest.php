@@ -1,10 +1,8 @@
 <?php
 
-namespace Tests\Feature\App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
-
-use App\Http\Controllers\Auth\SignInController;
-use Database\Factories\UserFactory;
+use App\Http\Requests\SignInFormRequest;
 use Domain\Auth\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -17,7 +15,7 @@ class SignInControllerTest extends TestCase
      * @test
      * @return void
      */
-    public function it_page_success(): void
+    public function it_login_page_success(): void
     {
         $this->get(action([SignInController::class, 'page']))
             ->assertOk()
@@ -29,19 +27,34 @@ class SignInControllerTest extends TestCase
      * @test
      * @return void
      */
-    public function it_handle_success(): void
+    public function it_logout_success(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'testing@mail.ru',
+        ]);
+
+        $this->actingAs($user)
+            ->delete(action([SignInController::class, 'logout']));
+
+        $this->assertGuest();
+    }
+
+    /**
+     * @test
+     * @return void
+     */
+    public function it_sign_in_success(): void
     {
         $password = '123456789';
-
-        $user = UserFactory::new()->create([
-            'email' => 'testing@cutcode.ru',
+        $user = User::factory()->create([
+            'email' => 'testing@mail.ru',
             'password' => bcrypt($password)
         ]);
 
-        $request = [
+        $request = SignInFormRequest::factory()->create([
             'email' => $user->email,
-            'password' => $password
-        ];
+            'password' => $password,
+        ]);
 
         $response = $this->post(action([SignInController::class, 'handle']), $request);
 
@@ -55,34 +68,15 @@ class SignInControllerTest extends TestCase
      * @test
      * @return void
      */
-    public function it_handle_fail(): void
+    public function it_sign_fail(): void
     {
-        $request = [
+        $request = SignInFormRequest::factory()->create([
             'email' => 'notfound@cutcode.ru',
             'password' => str()->random(10)
-        ];
+        ]);
 
         $this->post(action([SignInController::class, 'handle']), $request)
             ->assertInvalid(['email']);
-
-        $this->assertGuest();
-    }
-
-
-    /**
-     * @test
-     * @return void
-     */
-    public function it_logout_success(): void
-    {
-        UserFactory::new()->create([
-            'email' => 'testing@cutcode.ru',
-        ]);
-        $user = User::query()->where('email', 'testing@cutcode.ru')->first();
-
-        $this->actingAs($user)
-            ->delete(action([SignInController::class, 'logout']));
-
 
         $this->assertGuest();
     }
@@ -96,5 +90,4 @@ class SignInControllerTest extends TestCase
         $this->delete(action([SignInController::class, 'logout']))
             ->assertRedirect(route('home'));
     }
-
 }

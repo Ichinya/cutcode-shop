@@ -5,9 +5,9 @@ namespace Domain\Catalog\Filters;
 class FilterManager
 {
     public function __construct(
-        protected array $items = [],
-    )
-    {
+        protected array $items = []
+    ) {
+
     }
 
     public function registerFilters(array $items): void

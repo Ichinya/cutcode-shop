@@ -13,24 +13,11 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->boolean('on_home_page')->default(false);
-            $table->integer('sorting')->default('999');
+            $table->boolean('on_home_page')
+                ->default(false);
+
+            $table->integer('sorting')
+                ->default(999);
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down(): void
-    {
-
-        if (app()->isLocal()) {
-            Schema::table('products', function (Blueprint $table) {
-                $table->dropColumn('on_home_page');
-                $table->dropColumn('sorting');
-            });
-        }
     }
 };

@@ -1,9 +1,7 @@
 <?php
 
-namespace Tests\Feature\App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\Auth\SignInController;
 use Database\Factories\UserFactory;
 use Domain\Auth\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,13 +24,20 @@ class ResetPasswordControllerTest extends TestCase
         $this->token = Password::createToken($this->user);
     }
 
+    private function testingCredentials(): array
+    {
+        return [
+            'email' => 'testing@cutcode.ru'
+        ];
+    }
+
     /**
      * @test
      * @return void
      */
     public function it_page_success(): void
     {
-        $this->get(action([ResetPasswordController::class, 'page'], ['token' => $this->token]))
+        $this->get(action([ResetPasswordController::class, 'page'], ['token', $this->token]))
             ->assertOk()
             ->assertViewIs('auth.reset-password');
     }
@@ -41,14 +46,14 @@ class ResetPasswordControllerTest extends TestCase
      * @test
      * @return void
      */
-    public function it_handle(): void
+    public function it_handle_success(): void
     {
         $password = '1234567890';
         $password_confirmation = '1234567890';
 
         Password::shouldReceive('reset')
             ->once()
-            ->withSomeofArgs([
+            ->withSomeOfArgs([
                 'email' => $this->user->email,
                 'password' => $password,
                 'password_confirmation' => $password_confirmation,
@@ -65,5 +70,4 @@ class ResetPasswordControllerTest extends TestCase
 
         $response->assertRedirect(action([SignInController::class, 'page']));
     }
-
 }

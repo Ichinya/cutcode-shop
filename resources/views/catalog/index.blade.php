@@ -32,11 +32,13 @@
         <h2 class="text-lg lg:text-[42px] font-black">Каталог товаров</h2>
 
         <div class="flex flex-col lg:flex-row gap-12 lg:gap-6 2xl:gap-8 mt-8">
+
             <!-- Filters -->
             <aside class="basis-2/5 xl:basis-1/4">
                 <form action="{{ route('catalog', $category) }}"
                       class="overflow-auto max-h-[320px] lg:max-h-[100%] space-y-10 p-6 2xl:p-8 rounded-2xl bg-card">
-                    <input type="hidden" name="sort" value="{{ request('sort') }}">
+                    <input type="hidden" name="sort" value="{{ request('sort') }}"/>
+
                     @foreach(filters() as $filter)
                         {!! $filter !!}
                     @endforeach
@@ -60,8 +62,7 @@
                     <div class="flex items-center gap-4">
                         <div class="flex items-center gap-2">
                             <a href="{{ filter_url($category, ['view' => 'grid']) }}"
-                               class="@if(is_catalog_view('grid')) text-pink pointer-events-none @else text-white hover:text-pink @endif inline-flex items-center justify-center w-10 h-10 rounded-md bg-card"
-                            >
+                               class="@if(is_catalog_view('grid')) text-pink pointer-events-none @else text-white @endif inline-flex items-center justify-center w-10 h-10 rounded-md bg-card hover:text-pink">
                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                      viewBox="0 0 52 52">
                                     <path fill-rule="evenodd"
@@ -70,8 +71,7 @@
                                 </svg>
                             </a>
                             <a href="{{ filter_url($category, ['view' => 'list']) }}"
-                               class="@if(is_catalog_view('list')) text-pink pointer-events-none @else text-white hover:text-pink @endif inline-flex items-center justify-center w-10 h-10 rounded-md bg-card"
-                            >
+                               class="@if(is_catalog_view('list')) text-pink pointer-events-none @else text-white @endif inline-flex items-center justify-center w-10 h-10 rounded-md bg-card  hover:text-pink">
                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                      viewBox="0 0 52 52">
                                     <path fill-rule="evenodd"
@@ -88,7 +88,6 @@
                     <div x-data="{sort: '{{ filter_url($category, ['sort' => request('sort')]) }}'}"
                          class="flex flex-col sm:flex-row sm:items-center gap-3">
                         <span class="text-body text-xxs sm:text-xs">Сортировать по</span>
-
                         <select
                             name="sort"
                             x-model="sort"
@@ -97,19 +96,13 @@
 
                             <option value="{{ filter_url($category, ['sort' => '']) }}" class="text-dark">по умолчанию
                             </option>
-
-                            <option value="{{ filter_url($category, ['sort' => 'price']) }}"
-                                    class="text-dark">
-                                от дешевых к дорогим
+                            <option value="{{ filter_url($category, ['sort' => 'price']) }}" class="text-dark">от
+                                дешевых к дорогим
                             </option>
-
-                            <option value="{{ filter_url($category, ['sort' => '-price']) }}"
-                                    class="text-dark">
-                                от дорогих к дешевым
+                            <option value="{{ filter_url($category, ['sort' => '-price']) }}" class="text-dark">от
+                                дорогих к дешевым
                             </option>
-
-                            <option value="{{ filter_url($category, ['sort' => 'title']) }}"
-                                    class="text-dark">
+                            <option value="{{ filter_url($category, ['sort' => 'title']) }}" class="text-dark">
                                 наименованию
                             </option>
                         </select>
