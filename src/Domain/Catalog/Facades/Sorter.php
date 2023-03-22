@@ -2,9 +2,9 @@
 
 namespace Domain\Catalog\Facades;
 
+use Domain\Catalog\Sorters\Sorter as CatalogSorter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Facade;
-use Domain\Catalog\Sorters\Sorter as CatalogSorter;
 use Illuminate\Support\Stringable;
 
 /**

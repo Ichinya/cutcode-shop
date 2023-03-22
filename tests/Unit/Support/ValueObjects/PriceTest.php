@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Support\ValueObjects;
+namespace Support\ValueObjects;
 
 use Support\ValueObjects\Price;
 use Tests\TestCase;

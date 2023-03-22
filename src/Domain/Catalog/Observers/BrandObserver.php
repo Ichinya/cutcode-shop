@@ -3,9 +3,7 @@
 namespace Domain\Catalog\Observers;
 
 use Domain\Catalog\Cache\BrandCacheEnum;
-use Domain\Catalog\Cache\CategoryCacheEnum;
 use Domain\Catalog\Models\Brand;
-use Domain\Catalog\Models\Category;
 use Illuminate\Support\Facades\Cache;
 
 class BrandObserver

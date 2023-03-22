@@ -9,7 +9,7 @@
     >
         @csrf
 
-        <input type="hidden" name="token" value="{{ $token }}"/>
+        <input type="hidden" name="token" value="{{ $token }}" />
 
         <x-forms.text-input
             name="email"

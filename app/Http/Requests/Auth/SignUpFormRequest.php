@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
+use Tests\RequestFactories\SignUpFormRequestFactory;
 use Worksome\RequestFactories\Concerns\HasFactory;
 
 class SignUpFormRequest extends FormRequest
 {
     use HasFactory;
 
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
+    public static string $factory = SignUpFormRequestFactory::class;
+
     public function authorize(): bool
     {
         return auth()->guest();
@@ -30,7 +28,7 @@ class SignUpFormRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:1'],
             'email' => ['required', 'email:dns', 'unique:users'],
-            'password' => ['required', 'confirmed', Password::defaults()],
+            'password' => ['required', 'confirmed', Password::default()],
         ];
     }
 

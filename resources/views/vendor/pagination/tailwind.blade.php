@@ -4,8 +4,7 @@
             {{-- Previous Page Link --}}
             @if (!$paginator->onFirstPage())
                 <li>
-                    <a class="block p-3 text-white hover:text-pink text-sm font-black leading-none"
-                       href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
+                    <a class="block p-3 text-white hover:text-pink text-sm font-black leading-none" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
                 </li>
             @endif
 
@@ -13,8 +12,7 @@
             @foreach ($elements as $element)
                 {{-- "Three Dots" Separator --}}
                 @if (is_string($element))
-                    <li class="text-body/50 text-sm font-black leading-none" aria-disabled="true">
-                        <span>{{ $element }}</span></li>
+                    <li class="text-body/50 text-sm font-black leading-none" aria-disabled="true"><span>{{ $element }}</span></li>
                 @endif
 
                 {{-- Array Of Links --}}
@@ -22,12 +20,10 @@
                     @foreach ($element as $page => $url)
                         @if ($page == $paginator->currentPage())
                             <li class="active" aria-current="page">
-                                <span
-                                    class="block p-3 pointer-events-none text-pink text-sm font-black leading-none">{{ $page }}</span>
+                                <span class="block p-3 pointer-events-none text-pink text-sm font-black leading-none">{{ $page }}</span>
                             </li>
                         @else
-                            <li><a class="block p-3 text-white hover:text-pink text-sm font-black leading-none"
-                                   href="{{ $url }}">{{ $page }}</a></li>
+                            <li><a class="block p-3 text-white hover:text-pink text-sm font-black leading-none" href="{{ $url }}">{{ $page }}</a></li>
                         @endif
                     @endforeach
                 @endif
@@ -36,9 +32,7 @@
             {{-- Next Page Link --}}
             @if ($paginator->hasMorePages())
                 <li>
-                    <a class="block p-3 text-white hover:text-pink text-sm font-black leading-none"
-                       href="{{ $paginator->nextPageUrl() }}" rel="next"
-                       aria-label="@lang('pagination.next')">&rsaquo;</a>
+                    <a class="block p-3 text-white hover:text-pink text-sm font-black leading-none" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
                 </li>
             @endif
         </ul>
