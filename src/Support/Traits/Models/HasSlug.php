@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 trait HasSlug
 {
-    protected static function bootHasSlug()
+    protected static function bootHasSlug(): void
     {
 
         static::creating(function (Model $model) {

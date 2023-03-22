@@ -4,45 +4,43 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Domain\Auth\Models\User;
-use Illuminate\Contracts\Foundation\Application;
+use DomainException;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
+use Support\SessionRegenerator;
+use Symfony\Component\HttpFoundation\RedirectResponse as FoundationResponse;
+use Throwable;
 
 class SocialAuthController extends Controller
 {
-
-    public function redirect(string $driver): \Symfony\Component\HttpFoundation\RedirectResponse|RedirectResponse
+    public function redirect(string $driver): FoundationResponse|RedirectResponse
     {
         try {
             return Socialite::driver($driver)->redirect();
-
-        } catch (\Throwable $e) {
-            throw new \DomainException('Social auth error', $e->getCode(), $e);
+        } catch (Throwable) {
+            throw new DomainException('Произошла ошибка или драйвер не поддерживается');
         }
     }
 
-    public function callback(string $driver): Redirector|Application|RedirectResponse
+    public function callback(string $driver): RedirectResponse
     {
         if ($driver !== 'github') {
-            throw new \DomainException('Social auth error');
+            throw new DomainException('Драйвер не поддерживается');
         }
 
-        $driverUser = Socialite::driver($driver)->user();
+        $socialUser = Socialite::driver($driver)->user();
 
-        $user = User::query()->firstOrCreate([
-            $driver . '_id' => $driverUser->getId(),
+        // TODO 3rd lesson move to custom table
+        $user = User::query()->updateOrCreate([
+            $driver . '_id' => $socialUser->getId(),
         ], [
-            'name' => $driverUser->getName() ?? $driverUser->getNickname() ?? 'NoName',
-            'email' => $driverUser->getEmail(),
-            'password' => Hash::make(str()->random(20))
+            'name' => $socialUser->getName() ?? $socialUser->getEmail(),
+            'email' => $socialUser->getEmail(),
+            'password' => bcrypt(str()->random(20))
         ]);
 
-        Auth::login($user);
+        SessionRegenerator::run(fn() => auth()->login($user));
 
         return redirect()->intended(route('home'));
     }
-
 }

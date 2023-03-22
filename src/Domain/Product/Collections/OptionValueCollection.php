@@ -3,7 +3,7 @@
 namespace Domain\Product\Collections;
 
 use Illuminate\Database\Eloquent\Collection as DatabaseCollection;
-use \Illuminate\Support\Collection;
+use Illuminate\Support\Collection;
 
 class OptionValueCollection extends DatabaseCollection
 {

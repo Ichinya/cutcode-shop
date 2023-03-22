@@ -20,7 +20,7 @@ class ProductJsonPropertiesTest extends TestCase
         Queue::fake([ProductJsonProperties::class]);
 
         $properties = PropertyFactory::new()->count(10)->create();
-        $product = ProductFactory::new()->hasAttached($properties, function() {
+        $product = ProductFactory::new()->hasAttached($properties, function () {
             return ['value' => fake()->word()];
         })->create();
 

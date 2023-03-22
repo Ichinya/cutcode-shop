@@ -1,5 +1,12 @@
 <?php
 
+if (!function_exists('cart')) {
+    function cart(): \Domain\Cart\CartManager
+    {
+        return app(\Domain\Cart\CartManager::class);
+    }
+}
+
 if (!function_exists('sorter')) {
     function sorter(): \Domain\Catalog\Sorters\Sorter
     {

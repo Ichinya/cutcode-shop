@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SignInFormRequest;
+use App\Http\Requests\Auth\SignInFormRequest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Support\SessionRegenerator;
 
 class SignInController extends Controller
 {
@@ -33,21 +34,16 @@ class SignInController extends Controller
                 'email' => 'The provided credentials do not match our records.',
             ])->onlyInput('email');
         }
-        $request->session()->regenerate();
+
+        SessionRegenerator::run();
 
         return redirect()->intended(route('home'));
     }
 
     public function logout(): RedirectResponse
     {
-        Auth::logout();
-
-        request()->session()->invalidate();
-
-        request()->session()->regenerateToken();
+        SessionRegenerator::run(fn() => auth()->logout());
 
         return redirect()->route('home');
     }
-
-
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Services\Telegram;
 
 use Illuminate\Support\Facades\Http;
-use Services\Telegram\Exceptions\TelegramBotApiException;
 use Throwable;
 
 class TelegramBotApi implements TelegramBotApiContract
