@@ -19,6 +19,7 @@
         "laravel/tinker": "^2.8",
         "psr/http-factory-implementation": "*",
         "sentry/sentry-laravel": "^3.2",
+        "spatie/laravel-model-states": "^2.4",
         "spatie/laravel-view-models": "^1.5"
     },
     "require-dev": {

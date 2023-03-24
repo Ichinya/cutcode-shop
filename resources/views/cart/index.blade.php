@@ -91,7 +91,8 @@
                                     @csrf
                                     @method('DELETE')
 
-                                    <button type="submit" class="w-12 !h-12 !px-0 btn btn-pink" title="Удалить из корзины">
+                                    <button type="submit" class="w-12 !h-12 !px-0 btn btn-pink"
+                                            title="Удалить из корзины">
                                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                              viewBox="0 0 52 52">
                                             <path
@@ -118,7 +119,7 @@
                 </div>
                 <div class="flex flex-col sm:flex-row lg:justify-end gap-4">
                     <a href="{{ route('catalog') }}" class="btn btn-pink">За покупками</a>
-                    <a href="checkout.html" class="btn btn-purple">Оформить заказ</a>
+                    <a href="{{ route('order') }}" class="btn btn-purple">Оформить заказ</a>
                 </div>
             </div>
         @endif
