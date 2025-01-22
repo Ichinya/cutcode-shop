@@ -10,7 +10,7 @@
         "lodash": "^4.17.21",
         "postcss": "^8.4.31",
         "tailwindcss": "^3.2.4",
-        "vite": "^4.5.5",
+        "vite": "^4.5.9",
         "@tailwindcss/line-clamp": "^0.4.2",
         "autoprefixer": "^10.4.13",
         "sass": "^1.57.1"
